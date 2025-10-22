@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+// muszé dodać komentarz bo coś się popsuło
+
 final class WeatherController extends AbstractController
 {
         #[Route('/weather/{country}/{city}', name: 'app_weather')]
