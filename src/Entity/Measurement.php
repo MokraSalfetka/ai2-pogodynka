@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\MeasurementRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,7 +14,9 @@ class Measurement
     #[ORM\Column]
     private ?int $id = null;
 
-
+    #[ORM\ManyToOne(inversedBy: 'measurements')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Location $location = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $date = null;
@@ -24,23 +24,25 @@ class Measurement
     #[ORM\Column(type: Types::DECIMAL, precision: 3, scale: 0)]
     private ?string $celsius = null;
 
-    #[ORM\Column]
-    private ?int $humidity = null;
-
-    #[ORM\ManyToOne(inversedBy: 'measurements')]
-    private ?Location $location = null;
-
-    public function __construct()
-    {
-        $this->location = new ArrayCollection();
-    }
+    #[ORM\Column(type: Types::FLOAT)]
+    private ?float $humidity = 0;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
 
+    public function setLocation(?Location $location): static
+    {
+        $this->location = $location;
+
+        return $this;
+    }
 
     public function getDate(): ?\DateTime
     {
@@ -66,26 +68,14 @@ class Measurement
         return $this;
     }
 
-    public function getHumidity(): ?int
+    public function getHumidity(): ?float
     {
         return $this->humidity;
     }
 
-    public function setHumidity(int $humidity): static
+    public function setHumidity(float $humidity): static
     {
         $this->humidity = $humidity;
-
-        return $this;
-    }
-
-    public function getLocation(): ?Location
-    {
-        return $this->location;
-    }
-
-    public function setLocation(?Location $location): static
-    {
-        $this->location = $location;
 
         return $this;
     }

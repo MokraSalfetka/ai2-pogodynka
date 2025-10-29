@@ -4,18 +4,42 @@ namespace App\Form;
 
 use App\Entity\Location;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Range;
 
 class LocationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('city')
-            ->add('country')
-            ->add('latitude')
-            ->add('longitude')
+            ->add('city', null, [
+                'attr' => [
+                    'placeholder' => 'Enter city name',
+                ],
+            ])
+            ->add('country', ChoiceType::class, [
+                'choices' => [
+                    'Poland' => 'PL',
+                    'Germany' => 'DE',
+                    'France' => 'FR',
+                    'Spain' => 'ES',
+                    'Italy' => 'IT',
+                    'UK' => 'UK',
+                    'US' => 'US',
+                ],
+            ])
+            ->add('latitude', NumberType::class, [
+                'scale' => 7,
+                'html5' => true,
+            ])
+            ->add('longitude', NumberType::class, [
+                'scale' => 7,
+                'html5' => true,
+            ])
         ;
     }
 
